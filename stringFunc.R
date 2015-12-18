@@ -1,4 +1,8 @@
 # stringFunc.R
+# a collection of string functions in R
+# not complete.
+# last update: 2015-12-18
+
 "A string contains single quote (')"
 'A string contains double quote (")'
 "A string contains double quote (\")"
@@ -58,6 +62,7 @@ text <- "Hello Adam!\nHello Ava!"
 strsplit(text, " ")
 strsplit(text, "\\s") # blanks
 
+# equal to split each character as one string
 strsplit(text, "")
 # [1] "H"  "e"  "l"  "l"  "o"  " "  "A"  "d"  "a"  "m"  "!"  "\n" "H"  "e"  "l"  "l"  "o" 
 # [18] " "  "A"  "v"  "a"  "!" 
@@ -131,3 +136,78 @@ regexec("Adam", text)
 # extracting substring!
 # replacing strings!
 # others!
+
+# substitute
+# gsub,sub
+# NOTE: it does not change the pointer - the original string. return the new value
+# if you want to change the orignal string, assign the new value to it
+sub(pattern = "Adam", replacement = "world", text)
+# "Hellow, world!"      "Hi, world!"          "How are you, world."
+# sub only changes the place of first matching
+# gsub changes every time of matching
+sub(pattern = "Ada", replacement = "AAA", x = "AdaAda")
+# "AAAAda"
+gsub(pattern = "Ada", replacement = "AAA", x = "AdaAda")
+# "AAAAAA"
+
+## substring extraction
+# substr
+# substring
+substr("abcdef", 2, 4)
+substring("abcdef", 1:6, 1:6)
+unlist(strsplit("abcdef",split = ""))
+# the same effect. More efficient
+# can be combined with reg expr
+
+
+###
+# compare
+text > text
+# FALSE FALSE FALSE
+
+# sort
+sort(text, decreasing = T)
+# [1] "How are you, Adam." "Hi, Adam!"          "Hellow, Adam!"   
+
+# match
+exT<-c("Intron", "Exon", "promoter","enhancer")
+match("Exon", exT)
+# 2
+"promoter" %in% exT
+# TRUE
+pmatch("E", exT)
+# 2
+match("E", exT)
+# NA
+pmatch("x", exT)
+# NA
+charmatch("E", exT)
+# 2
+pmatch(c("Exo","enh"), exT)
+# 2 4
+
+## formatting
+format(1:10)
+# " 1" " 2" " 3" " 4" " 5" " 6" " 7" " 8" " 9" "10"
+format(1:10, trim = T)
+# "1"  "2"  "3"  "4"  "5"  "6"  "7"  "8"  "9"  "10"
+# formatting digits. Use of nsmall
+format(13.7)
+format(13.7, nsmall = 3)
+# "13.700"
+format(c(6.0, 13.1), digits = 2)
+# " 6" "13"
+format(c(6.0, 13.1), digits = 2, nsmall = 1)
+# " 6.0" "13.1"
+# digits control the integer part. nsmall controls the min number of digits to the right
+# of the decimal point
+
+## reg expr
+pattern <- "^[a-zA-Z0-9\\._%+-]+@[a-zA-Z0-9\\.-]+\\.[A-Za-z]{2,4}$"
+str<-c("abc","someone@qiuworld.com","efg","anotherone@gmail.com","thirdone@yahoo.cn")
+grep(pattern = pattern, x = str)
+grepl(pattern = pattern, x = str)
+regexpr(pattern = pattern, text = str)
+gregexpr(pattern = pattern, text = str)
+pattern_sim <- "^[\\w\\._%+-]+@[\\w\\.-]+\\.[A-Za-z]{2,4}$"
+pattern_3 <- "^[[:album]\\._%+-]+@[[album:]\\.-]+\\.[[alpha:]]{2,4}$"
